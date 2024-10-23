@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="fav.jpg" type="image/jpeg"> <!-- Link to favicon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome CDN -->
+    <title>Weather API</title>    
+</head>
+
+<script>
+    require('dotenv').config();
+const express = require('express');
+const app = express();
+
+app.get('/weather', (req, res) => {
+    const apiKey = process.env.API_KEY;
+    // Use the API key here to make requests to the weather API
+});
+
+// Other server code...
+
+</script>
+
+
+
+
+<body>
+    <div class="main-body">
+        <div class="content">
+            <div class="air-effect"></div> <!-- Air effect div -->
+            <div class="search-box">
+              <i class="fas fa-search search-icon"></i>
+                <input type="text" id="cityInput" placeholder="Enter city name">
+            </div>
+            <p id="myParagraph"></p> <!-- Empty on load -->
+            <p id="temp"></p> <!-- Empty on load -->
+            <p id="hum" style="display: none;">Humidity: <span id="hum_span"></span></p> <!-- Hidden initially -->
+        </div>
+    </div>
+
+    <video autoplay muted loop id="background-video">
+        <source src="sakura.mp4" type="video/mp4">
+    </video>
+
+    <script>
+        function getWeather(city) {
+            fetch(
+                `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=d9dd3cd73d39ee5a996d97ffa57cb148`
+            )
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+                document.getElementById("myParagraph").innerHTML = response.weather[0].description;
+                document.getElementById("temp").innerHTML = response.main.temp + " °C";
+                document.getElementById("hum_span").innerHTML = response.main.humidity + " %";
+                
+                // Show the humidity paragraph after fetching the data
+                document.getElementById("hum").style.display = "block";
+
+                const description = response.weather[0].description.toLowerCase();
+                const videoElement = document.getElementById("background-video");
+                const contentElement = document.querySelector('.content'); // Get the content element
+
+                if (description.includes("rain")) {
+                    videoElement.src = "rain.mp4"; // Change to rain video
+                } else if (description.includes("cloud")) {
+                    videoElement.src = "clouds.mp4"; // Change to clouds video
+                    contentElement.classList.add('cloud-style'); // Add cloud style
+                } else if (description.includes("fog")) {
+                    videoElement.src = "foggy-forest.mp4";
+                } else if (description.includes("sky")) {
+                    videoElement.src = "night-sky.mp4";
+                } else {
+                    videoElement.src = "sakura.mp4"; // Default video
+                }
+
+        // Load the new video source
+        videoElement.load();
+
+
+
+        const airEffect = document.querySelector('.air-effect');
+
+        // Reset the air effect
+        airEffect.classList.remove('air-effect'); // Remove the class to reset
+        void airEffect.offsetWidth; // Trigger reflow to restart animation
+        airEffect.classList.add('air-effect'); // Add the class again
+
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+
+        document.getElementById("cityInput").addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                const city = document.getElementById("cityInput").value;
+                if (city) {
+                    getWeather(city); // Only fetch weather after user input
+                }
+            }
+        });
+    </script>
+</body>
+</html>

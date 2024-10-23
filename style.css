@@ -1,0 +1,133 @@
+html, body {
+    height: 100vh;
+    margin: 0; 
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    color: pink;
+    font-size: 2em; /* Reduced the overall font size */
+    text-align: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.main-body {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 25em; /* Reduced width to fit content */
+    height: 25em; /* Adjusted height accordingly */
+    border: 1px solid pink;
+    border-radius: 2em;
+    position: relative;
+    background-color: rgba(128, 128, 128, 0.5);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+}
+
+#background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1; 
+    opacity: 0.6;
+}
+
+.search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+    width: 100%;
+    position: relative;
+}
+
+.search-icon {
+    font-size: 1.2em; /* Reduced size of search icon */
+    margin-right: 2em;
+    position: absolute;
+    left: 1em;
+    color: pink;
+}
+
+#cityInput {
+    padding: 0.3em; /* Reduced padding */
+    padding-left: 2.5em; /* Added padding to prevent text from going under the icon */
+    font-size: 1em; /* Adjusted the font size for input text */
+    border: none;
+    border-bottom: 2px solid pink;
+    outline: none;
+    background-color: transparent;
+    color: pink;
+    text-align: center;
+    width: 100%;
+    max-width: 18em; /* Adjusted the max width */
+    box-sizing: border-box;
+    margin-right: 1em;
+}
+
+#cityInput::placeholder {
+    color: rgba(255, 182, 193, 0.7);
+    font-size: 0.9em; /* Reduced font size for the placeholder */
+    margin-right: 1em;
+}
+
+#myParagraph {
+    font-size: 0.8em;
+}
+
+#temp {
+    font-size: 1.5em; /* Reduced font size for temperature display */
+}
+
+@keyframes air-animation {
+    0% {
+        transform: translateY(-100px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0; /* Fade out */
+    }
+}
+
+.air-effect {
+    position: absolute;
+    width: 100%; /* Cover the entire content */
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Allow clicks through */
+    overflow: hidden; /* Hide overflow */
+}
+
+.air-effect::before,
+.air-effect::after {
+    content: '';
+    position: absolute;
+    width: 100px; /* Increased width for better visibility */
+    height: 200px; /* Height of the air stream */
+    background-color: rgba(255, 105, 180, 0.7); /* Bright pink color */
+    border-radius: 50%; /* Rounded ends */
+    top: -100px; /* Start from above */
+    animation: air-animation 1s forwards; /* Animation duration and forwards */
+    opacity: 1; /* Start visible */
+}
+
+.air-effect::before {
+    left: -50px; /* Position on the left */
+    animation-delay: 0s; /* Start immediately */
+}
+
+.air-effect::after {
+    right: -50px; /* Position on the right */
+    animation-delay: 0.2s; /* Delay for right side for staggered effect */
+}
